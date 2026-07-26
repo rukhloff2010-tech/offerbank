@@ -131,14 +131,14 @@
         tg.expand(); // Разворачиваем окно на весь экран
 
         // 1. Получаем SubID (Метку канала) из параметров запуска ТГ-бота
-        // Например: t.me/ТВОЙ_БОТ?startapp=student_channel
+        // Если параметр пустой (человек зашел сам), присваиваем organic_traffic
         let subId = tg.initDataUnsafe?.start_param || "organic_traffic";
 
-        // 2. Сюда вставь свои реальные базовые ссылки из Leadgid!
+        // 2. Базовые ссылки из Leadgid (без параметров aff_sub)
         const offers = {
             'psb': "https://go.leadgid.ru/aff_c?aff_id=149637&offer_id=7249",
             'ozon': "https://go.leadgid.ru/aff_c?aff_id=149637&offer_id=7260&p=adnetwork",
-            'vtb': "https://go.leadgid.ru/aff_c?aff_id=149637&offer_id=7332&p=adnetwork"
+            'vtb': "https://go.leadgid.ru/aff_c?aff_id=149637&offer_id=5006&p=adnetwork"
         };
 
         // 3. Функция обработки клика по карте
@@ -146,10 +146,9 @@
             // Берем базовую ссылку
             let baseUrl = offers[bankKey];
             
-            // Формируем финальную ссылку с пришитым SubID канала
-            // (Проверь в Leadgid, какой параметр они используют, обычно &sub1=)
+            // Формируем финальную ссылку с правильным параметром aff_sub
             let separator = baseUrl.includes("?") ? "&" : "?";
-            let finalUrl = baseUrl + separator + "sub1=" + subId;
+            let finalUrl = baseUrl + separator + "aff_sub=" + subId;
 
             // Открываем ссылку во внешнем браузере телефона
             tg.openLink(finalUrl);
